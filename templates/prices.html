@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Energy Prices - Results</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Custom CSS styles */
+
+        /* Set background color and padding for the page */
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        /* Style the header */
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Style the form */
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        /* Style the form labels */
+        label {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        /* Style the select input */
+        select.form-select {
+            margin-bottom: 20px;
+        }
+
+        /* Style the submit button */
+        .btn-primary {
+            width: 100%;
+        }
+
+        /* Style the prices list */
+        ul.prices-list {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        /* Style the price list items */
+        ul.prices-list li {
+            margin-bottom: 10px;
+            padding: 5px 10px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        /* Style the graph container */
+        .graph-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Energy Prices</h1>
+        <form action="/prices" method="POST">
+            <div class="mb-3">
+                <label for="timeframe" class="form-label">Select Timeframe:</label>
+                <select class="form-select" id="timeframe" name="timeframe">
+                    <option value="6">Next 6 hours</option>
+                    <option value="12">Next 12 hours</option>
+                    <option value="24">Next 24 hours</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="area-selection" class="form-label">Select Price Area:</label>
+                <select class="form-select" id="area-selection" name="area_selection">
+                    <option value="1">WesTDenmark</option>
+                    <option value="2">EastDenmark</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Get Prices</button>
+        </form>
+
+        <div class="graph-container">
+                {{ graph|safe }}
+
+            <div class="prices-container">
+            <h2>Results</h2>
+            <p class="mb-4">The current time is {{ current_time }} and the prices in the area of Denmark {{ 'WestDenmark' if area_selection == '1' else 'EastDenmark' }} for the next {{ timeframe }} hours are:</p>
+
+            <ul class="prices-list">
+                {% for timestamp, price in prices %}
+                    <li>{{ timestamp }}: {{ price }}</li>
+                {% endfor %}
+            </ul>
+
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
