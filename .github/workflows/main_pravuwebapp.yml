@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -59,5 +59,5 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'pravuwebapp'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_8512A9642332415C8FF7C8EDCF2FAC5D }}
+          slot-name: 'Development'
+          publish-profile: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
